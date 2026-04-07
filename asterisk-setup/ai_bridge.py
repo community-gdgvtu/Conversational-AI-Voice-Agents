@@ -37,9 +37,10 @@ def transcribe_audio():
             transcript = response.results[0].alternatives[0].transcript
             log_debug(f"DEBUG: Caller said: {transcript}")
             return transcript
+        return ""
     except Exception as e:
         log_debug(f"STT Error: {e}")
-    return ""
+        return ""
 
 def synthesize_speech(text):
     log_debug(f"DEBUG: AI saying: {text}")
@@ -66,7 +67,7 @@ def main():
         sys.exit(0)
 
     user_text = transcribe_audio()
-    
+        
     if not user_text:
         ai_text = "I'm sorry, I didn't hear anything. Please speak clearly after the beep."
     else:
@@ -83,7 +84,7 @@ def main():
             ai_text = r.json().get("response", "Backend error.")
         except Exception:
             ai_text = "Connection timed out."
-    
+            
     synthesize_speech(ai_text)
 
 if __name__ == "__main__":
