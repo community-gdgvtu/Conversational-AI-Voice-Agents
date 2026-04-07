@@ -8,7 +8,7 @@ from google.cloud import texttospeech
 # Point to the Asterisk-owned GCP key
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/etc/asterisk/gcp_key.json"
 
-CLOUD_RUN_URL = "YOUR_CLOUD_RUN_URL/generate-response"
+CLOUD_RUN_URL = "CLOUD_RUN_URL/generate-response"
 USER_AUDIO_PATH = "/tmp/user_audio.wav"
 AI_RESPONSE_PATH = "/tmp/ai_response.ulaw"
 HANGUP_FLAG = "/tmp/hangup.flag"
@@ -63,7 +63,7 @@ def main():
     mode = sys.argv[1].strip().lower() if len(sys.argv) > 1 else "chat"
 
     if mode == "intro":
-        synthesize_speech("Welcome to the VTU campus event! How can I help you?")
+        synthesize_speech("Hi, I am NOVA your personal AI! How can I help you?")
         sys.exit(0)
 
     user_text = transcribe_audio()
@@ -74,7 +74,7 @@ def main():
         # Smart Hangup Logic
         exit_phrases = ["bye", "goodbye", "hang up", "end call"]
         if any(phrase in user_text.lower() for phrase in exit_phrases):
-            synthesize_speech("Goodbye! Enjoy the rest of the event.")
+            synthesize_speech("Goodbye! Thank you for calling.")
             os.system(f"touch {HANGUP_FLAG}") 
             sys.exit(0) 
 
